@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import SCDialog from "./Dialog.styled";
+import useGlobalState from "../../hooks/useGlobalState";
 
 export default function Dialog({ children, shown, duration = 0.33 }) {
   const [hasContent, setHasContent] = useState(shown);
+  const { theme } = useGlobalState();
 
   useEffect(() => {
     if (shown) return setHasContent(true);
@@ -14,7 +16,7 @@ export default function Dialog({ children, shown, duration = 0.33 }) {
 
   return (
     <SCDialog
-      className={`${shown ? "shown" : "hidden"}`}
+      className={`${shown ? "shown" : "hidden"} ${theme}`}
       style={{ "--duration": `${duration}s` }}
     >
       <div className="backdrop"></div>

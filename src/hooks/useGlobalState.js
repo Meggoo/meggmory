@@ -11,7 +11,12 @@ const useGlobalState = create((set) => ({
   isGaming: true,
   theme: "dark",
   themes: ["light", "dark"],
-  set_theme: (theme) => set({ theme }),
+  set_theme: (theme) =>
+    set(() => {
+      localStorage.setItem("_megg_theme_", theme);
+
+      return { theme };
+    }),
   set_gaming_state: (isGaming) => set({ isGaming }),
   set_level: (level) => set({ level }),
   set_score: (score) => set({ score }),

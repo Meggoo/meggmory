@@ -42,7 +42,7 @@ function App() {
   }, []);
 
   return (
-    <SCApp>
+    <SCApp className={state.theme}>
       <Switch>
         <Route path="/">
           <Home />

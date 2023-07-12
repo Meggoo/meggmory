@@ -5,3 +5,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: v-chan;
+  src: url("./assets/fonts/Virgil.woff2");
+}
+
+@font-face {
+  font-family: chino;
+  src: url("./assets/fonts/chino.ttf");
+}

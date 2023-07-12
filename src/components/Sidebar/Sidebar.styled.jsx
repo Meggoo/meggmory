@@ -1,25 +1,36 @@
 import styled from "styled-components";
 
 const SCSidebar = styled.div`
-  padding: 20px;
   position: fixed;
   inset: 0;
   pointer-events: none;
 
-  .toggle {
-    background: red;
+  &.light {
+    --text-background: #f6e7f2;
+    --button-background: #dcb6d2;
+    --color: #786a7a;
+    --toggle-background: black;
+    --toggle-color: white;
+  }
+
+  &.dark {
+    --text-background: #681818;
+    --button-background: #a92c2c;
+    --color: #dedeee;
+    --toggle-background: white;
+    --toggle-color: black;
   }
 
   .sidebar-backdrop {
     position: absolute;
     inset: 0;
-    background: #56565599;
+    background: #b391bb99;
     opacity: 0;
     transition: opacity 0.33s;
   }
 
   .sidebar-content {
-    background: #e58a8a;
+    background: var(--background);
     width: 300px;
     display: flex;
     flex-direction: column;
@@ -32,15 +43,82 @@ const SCSidebar = styled.div`
     right: 0;
     transform: translate(100%);
     transition: transform 0.33s;
+
+    .game-info {
+      color: var(--color);
+
+      .details {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        a {
+          text-decoration: none;
+        }
+
+        button,
+        a {
+          background: var(--button-background);
+          border: none;
+        }
+
+        p {
+          background: var(--text-background);
+        }
+
+        p,
+        button,
+        a {
+          color: var(--color);
+          padding: 20px 30px;
+          text-align: center;
+          border-radius: 5px;
+          transition: background-color 0.33s;
+
+          @media (hover: hover) {
+            &:hover {
+              background: var(--text-background);
+            }
+          }
+        }
+      }
+    }
+
+    .settings {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+
+      a {
+        color: var(--color);
+        text-decoration: none;
+
+        &::after {
+          background: var(--color);
+        }
+      }
+
+      .toggle {
+        background: var(--toggle-background);
+        color: var(--toggle-color);
+
+        align-self: center;
+      }
+    }
   }
 
   .sidebar-control {
     position: absolute;
-    top: 50px;
-    right: 100%;
+    top: 25px;
+    left: 0;
     transform: translate(-50px);
     transition: transform 0.33s;
     pointer-events: all;
+
+    @media screen and (max-width: 500px) {
+      top: auto;
+      bottom: 50px;
+    }
   }
 
   &.open {
@@ -55,7 +133,7 @@ const SCSidebar = styled.div`
     }
 
     .sidebar-control {
-      transform: translate(50px);
+      transform: translate(25px);
     }
   }
 `;

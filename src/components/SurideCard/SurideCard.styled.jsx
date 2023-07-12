@@ -6,8 +6,8 @@ const SCSurideCard = styled.div`
 
   .content {
     position: relative;
-    width: 200px;
-    height: 300px;
+    width: var(--image-width);
+    height: var(--image-height);
     transition: transform 0.33s;
     transform-style: preserve-3d;
 
@@ -23,6 +23,7 @@ const SCSurideCard = styled.div`
       background: #e36161;
       transform: rotateY(180deg);
       border-radius: 10px;
+      z-index: 2;
     }
   }
 

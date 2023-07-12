@@ -7,7 +7,7 @@ const SCStars = styled.div`
     position: absolute;
     top: var(--top);
     left: var(--left);
-    animation: anime 1s var(--delay) 1 forwards;
+    animation: animate-star 1s var(--delay) 1 forwards;
     transform: scale(0);
     display: grid;
     place-items: center;
@@ -24,7 +24,7 @@ const SCStars = styled.div`
     }
   }
 
-  @keyframes anime {
+  @keyframes animate-star {
     from,
     to {
       transform: scale(0);

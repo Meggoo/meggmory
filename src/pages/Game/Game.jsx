@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import SurideCard from "../../components/SurideCard/SurideCard.jsx";
-import SCGame from "./Game.styled.jsx";
-import Dialog from "../../components/Dialog/Dialog.jsx";
 import useGlobalState from "../../hooks/useGlobalState.js";
+import Dialog from "../../components/Dialog/Dialog.jsx";
+import PartyCard from "../../components/PartyCard/PartyCard.jsx";
+import Stars from "../../components/Stars/Stars.jsx";
+import Cube from "../../components/Cube/Cube.jsx";
+import Gallery from "../../components/Gallery/Gallery.jsx";
+import Card from "../../components/Card/Card.jsx";
 import data from "../../data.js";
 import subset from "../../utilities/subset.js";
 import shuffle from "../../utilities/shuffle.js";
-import PartyCard from "../../components/PartyCard/PartyCard.jsx";
-import Stars from "../../components/Stars/Stars.jsx";
+import SCGame from "./Game.styled.jsx";
 
-export default function Game() {
+export default function Game({ timing = 0.33 }) {
   const [level, setLevel] = useState(1);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(-1);
   const [levelScore, setLevelScore] = useState(0);
   const [highestScore, setHighestScore] = useState(0);
   const [images, setImages] = useState([]);
@@ -23,6 +25,8 @@ export default function Game() {
   const [gameOver, setGameOver] = useState(false);
   const [newHighScore, setNewHighScore] = useState(false);
   const [noMoreImages, setNoMoreImages] = useState(false);
+  const [currentlyFlipped, setCurrentlyFlipped] = useState(null);
+  const [locked, setLocked] = useState(false);
   const state = useGlobalState();
   const title = noMoreImages
     ? "You Beat the Game!"
@@ -35,17 +39,21 @@ export default function Game() {
     ? `You've reached a new high score of ${highestScore}`
     : `score: ${score}`;
   const Content = (
-    <div>
-      <h1>{title}</h1>
+    <div className="bordered glassified game-over-screen">
+      <h1 className="h-l">{title}</h1>
       {newHighScore && !noMoreImages ? (
         <Stars totalStars={5}>
-          <p>{message}</p>
+          <p className="b-m">{message}</p>
         </Stars>
       ) : (
-        <p>{message}</p>
+        <p className="b-m">{message}</p>
       )}
-      <Link to="/">Home</Link>
-      <button onClick={reset_game}>Play Again!</button>
+      <Link className="h-s underlined" to="/">
+        Home
+      </Link>
+      <button className="h-m play-button" onClick={reset_game}>
+        Play Again!
+      </button>
     </div>
   );
 
@@ -81,13 +89,7 @@ export default function Game() {
   }
 
   function restart_level() {
-    console.log("images:");
-    console.log(images);
-
     const shuffled = shuffle(images);
-
-    console.log("shuffled:");
-    console.log(shuffled);
 
     setIsFlipping(true);
     setIsLoading(true);
@@ -98,7 +100,7 @@ export default function Game() {
     setTimeout(() => {
       setIsFlipping(false);
       setIsLoading(false);
-    }, 330);
+    }, timing * 1000);
 
     state.set_images(shuffled);
     state.set_checked([]);
@@ -106,6 +108,7 @@ export default function Game() {
   }
 
   async function load_level(n) {
+    setCurrentlyFlipped(null);
     setIsLoading(true);
 
     try {
@@ -118,12 +121,12 @@ export default function Game() {
       setChecked([]);
       setError(false);
 
-      setTimeout(() => setImages(images), 330);
+      setTimeout(() => setImages(images), timing * 1000);
 
       setTimeout(() => {
         setIsLoading(false);
         setIsFlipping(false);
-      }, 500);
+      }, timing * 1500);
 
       state.set_level(n);
       state.set_score(newScore);
@@ -141,10 +144,18 @@ export default function Game() {
     setError(false);
     setIsLoading(true);
 
-    setTimeout(() => load_level(level + 1), 330);
+    setTimeout(() => load_level(level + 1), timing * 1000);
   }
 
   async function move(id) {
+    if (currentlyFlipped) {
+      setCurrentlyFlipped(null);
+
+      await new Promise((r) => setTimeout(r, timing * 1000));
+
+      setLocked(false);
+    }
+
     const isLast = !~-(images.length - checked.length);
     const isCorrect = !checked.some((other) => other.id === id);
 
@@ -154,6 +165,7 @@ export default function Game() {
       if (images.length === data.length) {
         setNoMoreImages(true);
         setGameOver(true);
+        setCurrentlyFlipped(null);
 
         if (score > highestScore) {
           const highestScore = data.length;
@@ -192,15 +204,27 @@ export default function Game() {
         setLevelScore((prev) => prev + 1);
         setChecked(newChecked);
 
-        setTimeout(() => setImages(shuffled), 330);
+        setTimeout(() => setImages(shuffled), timing * 1000);
 
-        setTimeout(() => setIsFlipping(false), 500);
+        setTimeout(() => setIsFlipping(false), timing * 1500);
 
         state.set_images(shuffled);
         state.set_checked(newChecked);
         state.set_level_score(levelScore + 1);
       }
     }
+  }
+
+  function show_info(event) {
+    event.stopPropagation();
+
+    const id = Number(event.target.dataset.id);
+
+    setCurrentlyFlipped(id);
+  }
+
+  function unflip_current_thing() {
+    setCurrentlyFlipped(null);
   }
 
   useEffect(() => {
@@ -226,26 +250,39 @@ export default function Game() {
     state.set_gaming_state(true);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [state.level]);
+
   return (
-    <SCGame>
-      <div className="cards">
-        {images.map((image, index) => (
-          <SurideCard
-            key={index}
-            front={<img src={image.src} />}
-            back={<p>by me</p>}
-            flip={() => move(image.id)}
-            flipped={isFlipping}
-          />
-        ))}
-      </div>
+    <SCGame className={state.theme}>
+      <Gallery
+        Component={Card}
+        props={{
+          show_info,
+          locked,
+          move,
+          unflip: unflip_current_thing,
+          currentlyFlipped,
+          isFlipping,
+        }}
+        images={images}
+      />
       <Dialog shown={isLoading}>
-        <div className="loading">Loading...</div>
+        <div className="loading-screen bordered glassified">
+          <Cube />
+          <p className="h-m">Loading...</p>
+        </div>
       </Dialog>
       <Dialog shown={error}>
-        <div className="error">
-          <p>Error</p>
-          <button onClick={retry}>Try Again!</button>
+        <div className="error-screen bordered glassified">
+          <h1 className="h-l">Error!</h1>
+          <p className="b-m">
+            Something went wrong, maybe you are not connected to the internet!
+          </p>
+          <button className="play-button h-m" onClick={retry}>
+            Try Again!
+          </button>
         </div>
       </Dialog>
       <Dialog shown={gameOver}>

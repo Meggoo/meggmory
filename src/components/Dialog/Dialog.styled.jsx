@@ -2,13 +2,22 @@ import styled from "styled-components";
 
 const SCDialog = styled.div`
   --duration: 0.33s;
+
+  &.light {
+    --dialog-background: #cc485c;
+  }
+
+  &.dark {
+    --dialog-background: #3f1d2c;
+  }
+
   position: fixed;
   inset: 0;
   transition: opacity var(--duration);
   z-index: 2;
 
   .backdrop {
-    background: #152c6755;
+    background: var(--dialog-background);
     position: absolute;
     inset: 0;
   }

@@ -33,30 +33,43 @@ export default function Sidebar() {
   }, [state.isGaming]);
 
   return (
-    <SCSidebar className={isOpen ? "open" : ""}>
+    <SCSidebar className={`${isOpen ? "open" : ""} ${state.theme}`}>
       <div className="sidebar-backdrop" onClick={close}></div>
       <div className="sidebar-content">
-        <button className="sidebar-control" onClick={isOpen ? close : open}>
+        <button
+          className="sidebar-control control-button"
+          onClick={isOpen ? close : open}
+        >
           {isOpen ? <IconX /> : <IconMenu2 />}
         </button>
         <div className="game-info">
           {state.isGaming ? (
-            <div className="gaming">
-              <p>Level: {state.level}</p>
-              <p>Score: {state.score + state.levelScore}</p>
-              <p>Best Score: {state.highestScore}</p>
-              <button onClick={restart_level}>Restart Level</button>
+            <div className="details">
+              <p className="b-m">Level: {state.level}</p>
+              <p className="b-m">Score: {state.score + state.levelScore}</p>
+              <p className="b-m">Best Score: {state.highestScore}</p>
+              <button className="b-m" onClick={restart_level}>
+                Restart Level
+              </button>
             </div>
           ) : (
-            <div>
-              <p>Best Score: {state.highestScore}</p>
-              {state.level && <Link to="/game">Back to Game</Link>}
+            <div className="details">
+              <p className="b-m">Best Score: {state.highestScore}</p>
+              {state.level && (
+                <Link className="b-m" to="/game">
+                  Back to Game
+                </Link>
+              )}
             </div>
           )}
         </div>
         <div className="settings">
-          {state.isGaming && <Link to="/">Home</Link>}
-          <Link to={state.isGaming ? "/info" : "/"}>
+          {state.isGaming && (
+            <Link className="h-s underlined" to="/">
+              Home
+            </Link>
+          )}
+          <Link className="h-s underlined" to={state.isGaming ? "/info" : "/"}>
             {state.isGaming ? "Instructions" : "Home"}
           </Link>
           <Toggle
