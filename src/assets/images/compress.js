@@ -3,8 +3,8 @@ import * as sxarp from "sharp";
 
 const source = process.argv[2];
 const target = process.argv[3];
-const width = Number(process.argv[4]) || 500;
-const height = Number(process.argv[5]) || 700;
+const width = Number(process.argv[4]) || 800;
+const height = Number(process.argv[5]) || 800;
 
 async function compress(source, target, width, height) {
   try {

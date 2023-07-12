@@ -40,12 +40,12 @@ const SCGallery = styled.div`
     opacity: 0;
     pointer-events: none;
     z-index: 1;
-    animation: hide var(--timing) linear forwards;
+    animation: hide var(--timing) forwards;
 
     &.open {
       pointer-events: all;
       opacity: 1;
-      animation: show var(--timing) linear forwards;
+      animation: show var(--timing) forwards;
     }
 
     @keyframes show {
@@ -96,11 +96,11 @@ const SCGallery = styled.div`
   .popup-image {
     position: fixed;
     object-fit: contain;
-    animation: pop-out var(--timing) linear forwards;
+    animation: pop-out var(--timing) forwards;
     z-index: 1;
 
     &.open {
-      animation: pop-up var(--timing) linear forwards;
+      animation: pop-up var(--timing) forwards;
     }
 
     @keyframes pop-up {

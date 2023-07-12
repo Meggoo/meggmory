@@ -96,6 +96,7 @@ export default function Game({ timing = 0.33 }) {
     setLevelScore(0);
     setImages(shuffled);
     setChecked([]);
+    setCurrentlyFlipped(null);
 
     setTimeout(() => {
       setIsFlipping(false);
@@ -163,12 +164,14 @@ export default function Game({ timing = 0.33 }) {
 
     if (isLast && isCorrect) {
       if (images.length === data.length) {
+        const newScore = score + levelScore;
+
         setNoMoreImages(true);
         setGameOver(true);
         setCurrentlyFlipped(null);
 
-        if (score > highestScore) {
-          const highestScore = data.length;
+        if (newScore > highestScore) {
+          const highestScore = newScore;
 
           localStorage.setItem("_meggest_score_", JSON.stringify(highestScore));
 
