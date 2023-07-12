@@ -8,12 +8,6 @@ const SCGame = styled.div`
   padding: 50px;
   min-height: 100vh;
 
-  /* .cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 50px; */
-
   .card {
     position: relative;
     width: 100%;

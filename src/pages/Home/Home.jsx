@@ -20,10 +20,10 @@ export default function Home() {
           <img src={logo} alt="company logo" />
           <p className="b-l">Memories of Meggtasm</p>
         </div>
-        <Link className="h-m play-button" href="/game">
+        <Link className="h-m play-button" href="/meggmory/game">
           Start Game!
         </Link>
-        <Link className="b-l underlined" href="/info">
+        <Link className="b-l underlined" href="/meggmory/info">
           Instructions
         </Link>
       </div>

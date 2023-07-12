@@ -56,7 +56,7 @@ export default function Sidebar() {
             <div className="details">
               <p className="b-m">Best Score: {state.highestScore}</p>
               {state.level && (
-                <Link className="b-m" to="/game">
+                <Link className="b-m" to="/meggmory/game">
                   Back to Game
                 </Link>
               )}
@@ -65,11 +65,14 @@ export default function Sidebar() {
         </div>
         <div className="settings">
           {state.isGaming && (
-            <Link className="h-s underlined" to="/">
+            <Link className="h-s underlined" to="/meggmory">
               Home
             </Link>
           )}
-          <Link className="h-s underlined" to={state.isGaming ? "/info" : "/"}>
+          <Link
+            className="h-s underlined"
+            to={state.isGaming ? "/meggmory/info" : "/meggmory"}
+          >
             {state.isGaming ? "Instructions" : "Home"}
           </Link>
           <Toggle

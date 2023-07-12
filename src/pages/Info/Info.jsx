@@ -65,15 +65,16 @@ export default function Info() {
       </p>
       <h2 className="h-m">Installation</h2>
       <p className="b-m">
-        You can install the app on mobile and desktop and play offline. There
-        are about 5 Meggs of image resources to download.
+        You can install the app on mobile and desktop and play offline.
       </p>
       <img src={mobile} alt="install app on mobile" />
       <h2 className="h-m">Bug Reports</h2>
       <p className="b-m">
         If you find a bug you can report it on{" "}
-        <a href="https://github.com/Meggoo/meggmory" target="_blank">the project's repo</a>, or
-        on the{" "}
+        <a href="https://github.com/Meggoo/meggmory" target="_blank">
+          the project's repo
+        </a>
+        , or on the{" "}
         <a href="https://4chan.org/a/goc" target="_blank">
           &gt;&gt;&gt;a thread
         </a>{" "}

@@ -48,7 +48,7 @@ export default function Game({ timing = 0.33 }) {
       ) : (
         <p className="b-m">{message}</p>
       )}
-      <Link className="h-s underlined" to="/">
+      <Link className="h-s underlined" to="/meggmory">
         Home
       </Link>
       <button className="h-m play-button" onClick={reset_game}>

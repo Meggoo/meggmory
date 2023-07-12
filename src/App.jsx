@@ -44,16 +44,16 @@ function App() {
   return (
     <SCApp className={state.theme}>
       <Switch>
-        <Route path="/">
+        <Route path="/meggmory">
           <Home />
         </Route>
-        <Route path="/game">
+        <Route path="/meggmory/game">
           <div>
             <Game />
             <Sidebar />
           </div>
         </Route>
-        <Route path="/info">
+        <Route path="/meggmory/info">
           <div>
             <Info />
             <Sidebar />
