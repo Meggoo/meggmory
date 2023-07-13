@@ -46,5 +46,5 @@ const options = {
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/meggmory/",
-  plugins: [react()],
+  plugins: [react(), VitePWA(options)],
 });
